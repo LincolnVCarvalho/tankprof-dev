@@ -1,24 +1,28 @@
 {
-	"name": "tankprof-dev",
-	"version": "1.0.0",
-	"description": "Repository for studies and skill improvement.",
-	"main": "index.js",
-	"scripts": {
-		"dev": "next dev",
-		"lint:check": "prettier --check .",
-		"lint:fix": "prettier --write .",
-		"test": "jest",
-		"test:watch": "jest --watch"
-	},
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"next": "^13.1.6",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
-	},
-	"devDependencies": {
-		"jest": "^29.6.2",
-		"prettier": "^3.7.4"
-	}
+    "name": "tankprof-dev",
+    "version": "1.0.0",
+    "description": "Repository for studies and skill improvement.",
+    "main": "index.js",
+    "scripts": {
+        "dev": "npm run services:start && next dev",
+        "services:start": "docker compose -f infra/compose.yaml up -d",
+        "services:stop": "docker compose -f infra/compose.yaml stop",
+        "services:down": "docker compose -f infra/compose.yaml down",
+        "lint:check": "prettier --check .",
+        "lint:fix": "prettier --write .",
+        "test": "jest",
+        "test:watch": "jest --watchAll"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "next": "^13.1.6",
+        "pg": "^8.11.3",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "jest": "^29.6.2",
+        "prettier": "^3.7.4"
+    }
 }
