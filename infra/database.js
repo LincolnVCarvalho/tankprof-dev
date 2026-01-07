@@ -1,6 +1,22 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
+    let client;
+
+    try {
+        client = await getNewClient();
+        const response = await client.query(queryObject);
+        await client.end();
+        return response;
+    } catch (error) {
+        console.error("Database query error:", error);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
+
+async function getNewClient() {
     const client = new Client({
         host: process.env.POSTGRES_HOST,
         port: process.env.POSTGRES_PORT,
@@ -11,17 +27,7 @@ async function query(queryObject) {
     });
 
     await client.connect();
-
-    try {
-        const response = await client.query(queryObject);
-        await client.end();
-        return response;
-    } catch (error) {
-        console.error("Database query error:", error);
-        throw error;
-    } finally {
-        await client.end();
-    }
+    return client;
 }
 
 function getSSLValues() {
@@ -35,5 +41,6 @@ function getSSLValues() {
 }
 
 export default {
-    query: query,
+    query,
+    getNewClient,
 };
